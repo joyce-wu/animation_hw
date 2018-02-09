@@ -1,19 +1,20 @@
-'''
-Joyce Wu
-Softdev2 pd7
-K#02 -- They lock us in the tower whenever we get caught...which is often
-2018-02-07
-'''
+// Joyce Wu
+// Softdev2 pd7
+// K#02 -- They lock us in the tower whenever we get caught...which is often
+// 2018-02-07
+
 
 c = document.getElementById("slate");
 ctx = c.getContext("2d");
 stop = document.getElementById("stop");
 start = document.getElementById("start");
+bounce = document.getElementById("bounce");
 var grow = true;
 var id;
 //centers circle in canvas
 var x = c.width/2;
 var y = c.height/2;
+var dx, dy;
 var size;
 
 var stopFxn = function(e){
@@ -43,6 +44,11 @@ var drawCircle = function(){
 }
 
 var startFxn = function(e){
+  if(id){
+    stopFxn(); //stops previous function
+  }
+  x = c.width/2;
+  y = c.height/2; //resets initial x, y core
   grow = !grow; //toggles between growing and shrinking
   if(grow){
     size = 10; //if growing, creates a small circle
@@ -53,6 +59,38 @@ var startFxn = function(e){
   }
 }
 
+var drawBounce = function(){
+  ctx.strokeStyle="#000000";
+  ctx.fillStyle="#FF0000";
+  ctx.beginPath();
+  ctx.clearRect(0, 0, c.width, c.height);
+  ctx.arc(x, y, size, 0, 2*Math.PI);
+  ctx.stroke();
+  ctx.fill();
+  //slope change if circle hits the edge
+  if (x + (size/2) >= c.width || x - (size/2) <= 0){ //hits the right or left edge of canvas
+    dx = -dx; //reverses direction
+  }if (y + (size/2) >= c.height || y - (size/2) <= 0){ //hits top or bottom
+    dy = -dy;
+  }
+  x += dx; //changes new position of
+  y += dy;
+  id = window.requestAnimationFrame(drawBounce);
+}
+
+var bounceFxn = function(e){
+  if(id){
+    stopFxn(); //stops previous animation
+  }
+  x = c.width/2;
+  y = c.height/2; //resets initial ball
+  size = 15;
+  dx = 1;
+  dy = 2; // initially moves up slope of 1/2
+  drawBounce();
+}
+
 //add event listeners
 stop.addEventListener("click", stopFxn);
 start.addEventListener("click", startFxn);
+bounce.addEventListener("click", bounceFxn);
