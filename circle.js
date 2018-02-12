@@ -16,6 +16,7 @@ var x = c.width/2;
 var y = c.height/2;
 var dx, dy;
 var size;
+var logo;
 
 var stopFxn = function(e){
   window.cancelAnimationFrame(id); //cancels animation at stop
@@ -59,18 +60,18 @@ var startFxn = function(e){
   }
 }
 
+var build_image = function(){
+  logo = new Image(); //adding new image to canvas
+  logo.src = "dvd_logo.png";
+}
+
 var drawBounce = function(){
-  ctx.strokeStyle="#000000";
-  ctx.fillStyle="#FF0000";
-  ctx.beginPath();
   ctx.clearRect(0, 0, c.width, c.height);
-  ctx.arc(x, y, size, 0, 2*Math.PI);
-  ctx.stroke();
-  ctx.fill();
+  ctx.drawImage(logo, x, y, 100, 50);
   //slope change if circle hits the edge
-  if (x + (size/2) >= c.width || x - (size/2) <= 0){ //hits the right or left edge of canvas
+  if (x + (100/2) >= c.width || x - (100/2) <= 0){ //hits the right or left edge of canvas
     dx = -dx; //reverses direction
-  }if (y + (size/2) >= c.height || y - (size/2) <= 0){ //hits top or bottom
+  }if (y + (50/2) >= c.height || y - (50/2) <= 0){ //hits top or bottom
     dy = -dy;
   }
   x += dx; //changes new position of
@@ -87,6 +88,7 @@ var bounceFxn = function(e){
   size = 15;
   dx = 1;
   dy = 2; // initially moves up slope of 1/2
+  build_image();
   drawBounce();
 }
 
