@@ -69,9 +69,10 @@ var drawBounce = function(){
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.drawImage(logo, x, y, 100, 50);
   //slope change if circle hits the edge
-  if (x + (100/2) >= c.width || x - (100/2) <= 0){ //hits the right or left edge of canvas
+  //x and y coordinates are of top right corner
+  if (x + 100 >= c.width || x <= 0){ //hits the right or left edge of canvas
     dx = -dx; //reverses direction
-  }if (y + (50/2) >= c.height || y - (50/2) <= 0){ //hits top or bottom
+  }if (y + 50 >= c.height || y <= 0){ //hits top or bottom
     dy = -dy;
   }
   x += dx; //changes new position of
